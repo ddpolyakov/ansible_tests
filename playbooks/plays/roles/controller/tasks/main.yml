@@ -1,0 +1,3 @@
+- name: create_controller_hostname
+  hostname:
+   name: "{{inventory_hostname}}"

@@ -1,0 +1,7 @@
+- name: create_mac_var
+  set_fact: 
+   mac: "{{ansible_default_ipv4.macaddress.split(':')}}"
+
+- name: create_compute_nodes_hostname
+  hostname:
+   name: cmp-{{mac[4]}}{{mac[5]}}

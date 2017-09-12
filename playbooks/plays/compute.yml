@@ -1,0 +1,4 @@
+---
+- hosts: cmps
+  roles:
+   - compute

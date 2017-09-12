@@ -1,0 +1,10 @@
+[cmps]
+cmp1 ansible_host=10.7.11.136
+cmp2 ansible_host=10.7.11.137
+
+[ctrs]
+ctr1 ansible_host=10.7.11.138
+[OS:children]
+cmps
+ctrs
+
