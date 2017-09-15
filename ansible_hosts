@@ -4,7 +4,7 @@ cmp2 ansible_host=10.7.11.137
 
 [ctrs]
 ctr1 ansible_host=10.7.11.138
+ctr2 ansible_host=10.7.11.155
 [OS:children]
 cmps
 ctrs
-

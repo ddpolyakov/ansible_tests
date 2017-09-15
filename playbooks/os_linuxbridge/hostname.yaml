@@ -1,0 +1,65 @@
+- hosts: all
+  tasks:
+     - name: show me debug opts
+       debug:
+        #msg: "{{hostvars}}"
+        #msg: test is {{ansible_default_ipv4.macaddress}}
+        msg: test is {{ansible_default_ipv4.macaddress}} and {{inventory_hostname}} and  
+
+     - name: install vim
+       yum: 
+        name: vim
+        state: latest
+
+     - name: install chrony.conf
+       yum:
+        name: chrony
+        state: latest
+
+     - name: update chrony.conf
+       copy:
+        src: /home/ddp/ansible/playbooks/plays/files/chrony.conf
+        dest: /etc/chrony.conf
+        backup: yes
+       notify:
+       - restart chronyd
+ 
+     - name: update all
+       yum:
+        name: '*'
+        state: latest
+    
+     - name: verify chronyd started
+       service:
+        name: chronyd
+        state: started
+        enabled: yes
+
+     - name: disabling selinux 
+       selinux: 
+        state: disabled
+       register: seldisable
+    
+     - name: reboot
+       shell: nohup bash -c "sleep 2s && reboot" &
+       async: 0
+       poll: 0
+       ignore_errors: true
+       register: reboot
+       when: seldisable.changed
+
+     - local_action: shell ansible -m ping {{inventory_hostname}}
+       register: result 
+       until: result.rc == 0
+       retries: 30
+       delay: 5 
+       when: reboot.changed
+
+      
+       
+
+  handlers:
+     - name: restart chronyd
+       service:
+        name: chronyd
+        state: restarted
