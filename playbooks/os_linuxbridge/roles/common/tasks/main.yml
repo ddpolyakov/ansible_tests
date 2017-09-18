@@ -23,7 +23,7 @@
 
      - name: update chrony.conf
        copy:
-        src: /home/ddp/ansible/playbooks/os_linuxbridge/files/chrony.conf
+        src: chrony.conf
         dest: /etc/chrony.conf
         backup: yes
        notify:

@@ -1,4 +1,4 @@
-- hosts: cmps
+- hosts: localhost
   tasks:
   - name: create_mac_var
     set_fact:
@@ -8,6 +8,10 @@
     debug: 
      msg: test {{mac}} {{ansible_default_ipv4.macaddress}} cmp-{{mac[4]}}{{mac[5]}} {{inventory_hostname}}
   
-  - name: create_compute_nodes_hostname
-    hostname:
-     name: cmp-{{mac[4]}}{{mac[5]}}
+  - name: mesg_with_items
+    debug: 
+     msg: module {{item.src}}
+    with_items:
+    - {src: 'a', dest: 'dst_a'} 
+    - {src: 'b', dest: 'dst_b'}
+  
