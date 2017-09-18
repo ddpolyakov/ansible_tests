@@ -1,4 +1,7 @@
 ---
+- name: test_token
+  debug: msg={{global_admin_token}}
+
 - name: create_controller_hostname
   hostname:
    name: "{{inventory_hostname}}"
@@ -59,7 +62,7 @@
    name:
    - openstack-keystone
    state: latest
-  tags: glance, os
+  tags: keystone, os
 
 
 - name: install helpfull pkgs
@@ -78,5 +81,20 @@
 
  
 #- name: install OS components
-#  yum: 
+###### INSTALL CONFS FILES ##### 
+- name: copy OS keystone confs
+  template:
+   dest: /etc/keystone/keystone.conf
+   src: templates/keystone.j2
+  tags: keystone, os
+
+- name: copy OS glance confs
+  template:
+   src: "{{item.src}}"
+   dest: "{{item.dest}}"
+   backup: yes
+  with_items:
+   - "{src:'glance-api.j2', dest:'/etc/glance/glance-api.conf'}"
+   - "{src:'glance-registry.j2', dest:'/etc/glance/glance-registry.conf'}"
+  tags: glance, os
    

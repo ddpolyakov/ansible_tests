@@ -1,0 +1,8 @@
+---
+hosts: all
+tasks:
+ - name: create token
+   shell: openssl rand -hex 10
+   register: tkn
+vars:
+ global_token: "{{tkn.stdout}}"
