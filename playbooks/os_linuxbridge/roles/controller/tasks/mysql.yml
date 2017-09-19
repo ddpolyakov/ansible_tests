@@ -1,0 +1,43 @@
+---
+- name: verify mariadb is running
+  service:
+   name: mariadb
+   state: started
+  tags: mysql 
+
+- name: delete anonymous MySQL server user for {{ ansible_nodename }}
+  mysql_user: 
+   login_user: root
+   login_password: ''
+   check_implicit_admin: yes
+   user: ""
+   host: "{{ item }}"
+   state: "absent"
+  with_items:
+   - '%'
+   - localhost
+   - "{{ansible_hostname}}"
+  tags: mysql
+
+- name: Change root user priveleges
+  mysql_user: 
+   login_user: root
+   login_password: ''
+   check_implicit_admin: yes
+   name: root
+   password: ''
+   priv: '*.*:ALL,GRANT'
+   host: "{{ item }}"
+  with_items:
+   - 'localhost'
+   - '127.0.0.1'
+   - '::1'
+  tags: mysql
+
+- name: remove the MySQL test database
+  mysql_db:
+   login_user: root 
+   login_password: '' 
+   db: test 
+   state: absent
+  tags: mysql

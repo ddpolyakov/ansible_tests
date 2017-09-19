@@ -1,3 +1,5 @@
 ---
 - include: install.yml
 - include: confs.yml
+- include: mysql.yml
+- include: db_creation.yml

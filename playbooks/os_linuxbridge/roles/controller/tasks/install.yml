@@ -23,6 +23,7 @@
    - httpd 
    - mod_wsgi
    state: latest
+  tags: mysql, http
   
  
 - name: install OS nova components
