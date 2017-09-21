@@ -18,3 +18,9 @@
     - {src: 'a', dest: 'dst_a'} 
     - {src: 'b', dest: 'dst_b'}
   
+  - name: ola
+    debug:
+     msg: "openstack endpoint create --region RegionOne {{item.service}} internal http://controller:{{item.port}}{{item.suffix}}"
+    with_items:
+     - "{{global_os_services}}"
+    tags: services, endpoints

@@ -1,0 +1,40 @@
+---
+- name: create domain
+  environment: "{{global_os_env}}"
+  command: "openstack domain create  --description \"domain {{item}}\" {{item}}"
+  with_items: "{{global_os_domains}}"
+  tags: roles, os, domains
+
+- name: create projects
+  environment: "{{global_os_env}}"
+  command: "openstack project create --domain default --description \"project {{item}}\" {{item}}"
+  with_items: "{{global_os_projects}}"
+  tags: roles, os, projects
+
+- name: create OS admin role
+  environment: "{{global_os_env}}"
+  command: "openstack role create admin"
+  tags: roles, os, roles, admin
+
+- name: create OS admin user
+  environment: "{{global_os_env}}"
+  command: "openstack user create --domain default --password {{global_os_password}} admin"
+  tags: roles, os, users, admin
+
+- name: create OS service users
+  environment: "{{global_os_env}}"
+  command: "openstack user create --domain default --password {{global_os_password}} {{item}}"
+  with_items: "{{global_os_service_users}}"
+  tags: roles, os, users, service
+
+- name: map admin roles
+  environment: "{{global_os_env}}"
+  command: "openstack role add --project admin --user admin admin"
+  tags: roles, os, roles, admin
+
+- name: map service roles
+  environment: "{{global_os_env}}"
+  command: "openstack role add --project service --user {{item}} admin"
+  with_items: "{{global_os_service_users}}"
+  tags: roles, os, roles
+

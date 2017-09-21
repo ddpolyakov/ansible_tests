@@ -41,3 +41,10 @@
    db: test 
    state: absent
   tags: mysql
+
+- name: enable mariadb
+  service: 
+   name: mariadb
+   enabled: yes
+   state: started
+  tags: mysql
