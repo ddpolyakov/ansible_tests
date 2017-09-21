@@ -1,5 +1,25 @@
 ---
 - include: install.yml
 - include: confs.yml
+- include: dns.yml
 - include: mysql.yml
+- include: rabbit.yml
 - include: db_creation.yml
+- include: keystone.yml
+- include: httpd.yml
+- include: os_services.yml
+
+- name: reboot
+  shell: nohup bash -c "sleep 2s && reboot" &
+  async: 0
+  poll: 0
+  ignore_errors: true
+  register: reboot
+
+- local_action: shell ansible -m ping {{inventory_hostname}}
+  register: result
+  until: result.rc == 0
+  retries: 30
+  delay: 10
+  when: reboot.changed
+

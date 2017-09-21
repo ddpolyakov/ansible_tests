@@ -1,0 +1,6 @@
+---
+- name: input controller to hosts (THIS IS TEMPORARY PLZ CHANGE)
+  lineinfile:
+   path: /etc/hosts
+   line: '{{ansible_default_ipv4.address}} controller'
+  tags: dns

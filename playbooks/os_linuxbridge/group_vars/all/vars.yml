@@ -1,3 +1,15 @@
 ---
 global_admin_token: a5b1b86c07f32ed6da4a
 global_os_password: openstack
+global_os_auth:
+ auth_url: http://cotroller:35357/v3
+ username: admin
+ password: "{{global_os_password}}"
+ user_domain_name: default
+ project_name: admin
+ project_domain_name: default
+global_os_services:
+   - {name: 'keystone', service: 'identity', descr: 'OS Identity' }
+   - {name: 'glance', service: 'image', descr: 'OS Image' }
+   - {name: 'neutron', service: 'network', descr: 'OS Nova' }
+   - {name: 'nova', service: 'compute', descr: 'OS Nova' }

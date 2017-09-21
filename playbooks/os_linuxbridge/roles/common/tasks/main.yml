@@ -67,6 +67,6 @@
        register: result 
        until: result.rc == 0
        retries: 30
-       delay: 5 
+       delay: 10 
        when: reboot.changed
 

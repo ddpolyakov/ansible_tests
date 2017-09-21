@@ -1,0 +1,30 @@
+---
+
+
+- name: create service keystone
+  environment:
+   OS_TOKEN: "{{global_admin_token}}"
+   OS_URL: http://controller:35357/v3
+   OS_IDENTITY_API_VERSION: 3
+   OS_AUTH_TYPE: admin_token
+  os_keystone_service:
+   auth_type: admin_token
+   name: keystone
+   description: Identity
+   service_type: identity
+  tags: endpoints
+
+- name: create OS services and admin enpoints
+  os_keystone_service:
+   auth: "{{global_os_auth}}"
+   name: "{{item.name}}"
+   service_type: "{{item.service}}"
+   description: "{{item.descr}}"
+   endpoint_type: admin
+   region_name: RegionOne
+  with_items:
+   - {name: 'keystone', service: 'identity', descr: 'OS Identity' }
+   - {name: 'glance', service: 'image', descr: 'OS Image' }
+   - {name: 'neutron', service: 'network', descr: 'OS Nova' }
+   - {name: 'nova', service: 'compute', descr: 'OS Nova' }
+  tags: services, endpoints

@@ -1,0 +1,7 @@
+---
+- name: start httpd & enable
+  service: 
+   name: httpd
+   enabled: yes
+   state: restarted
+  tags: httpd

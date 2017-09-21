@@ -4,7 +4,7 @@
   template:
    dest: /etc/keystone/keystone.conf
    src: templates/keystone.j2
-  tags: keystone, os
+  tags: keystone, os, conf
 
 - name: copy OS glance confs
   template:
@@ -14,11 +14,35 @@
   with_items:
    - {src: 'glance-api.j2', dest: '/etc/glance/glance-api.conf'}
    - {src: 'glance-registry.j2', dest: '/etc/glance/glance-registry.conf'}
-  tags: glance, os
+  tags: glance, os, conf
    
-- name: copy OS keystone confs
+- name: copy OS nova confs
   template:
    dest: /etc/nova/nova.conf
    src: templates/nova.j2
-  tags: nova, os
+  tags: nova, os, conf
+
+- name: copy MySQL conf
+  copy:
+   src: mysql.cnf
+   dest: /etc/my.cnf.d/openstack.cnf
+  tags: mysql, conf
+
+- name: copy httpd 
+  template:
+   src: httpd.j2
+   dest: /etc/httpd/conf/httpd.conf
+  tags: httpd, conf
+
+- name: copy wsgi conf
+  template:
+   src: wsgi-keystone.j2
+   dest: /etc/httpd/conf.d/wsgi-keystone.conf
+  tags: keystone, wsgi, conf, httpd
+
+- name: copy admin rc
+  template:
+   src: adm-openrc.j2
+   dest: /root/adm-openrc
+  tags: conf
 

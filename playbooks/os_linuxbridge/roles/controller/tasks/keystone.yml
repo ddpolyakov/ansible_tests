@@ -1,0 +1,11 @@
+---
+- name: keystone db sync
+  command: "keystone-manage db_sync"
+  become: yes
+  become_user: keystone
+  run_once: yes
+  tags: db_sync, keystone
+
+- name: keystone fernet_setup
+  command: "keystone-manage fernet_setup --keystone-user keystone --keystone-group keystone"
+  tags: keystone, fernet

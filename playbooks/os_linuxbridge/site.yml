@@ -1,5 +1,5 @@
 ---
 
+- include: OS.yml
 - include: compute.yml
 - include: controller.yml
-- include: OS.yml

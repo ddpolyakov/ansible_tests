@@ -7,6 +7,9 @@
   - name: create_test
     debug: 
      msg: test {{mac}} {{ansible_default_ipv4.macaddress}} cmp-{{mac[4]}}{{mac[5]}} {{inventory_hostname}}
+  - name: create_test_sjsj
+    debug: 
+     msg: "{{global_os_services}}" 
   
   - name: mesg_with_items
     debug: 
