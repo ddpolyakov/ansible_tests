@@ -1,0 +1,11 @@
+ri_master ansible_host=10.80.4.135 ansible_port=22
+ra_master ansible_host=10.128.84.136 ansible_port=22
+
+ri_slave ansible_host=10.80.0.135 ansible_port=22
+ra_slave ansible_host=10.128.80.136 ansible_port=22
+
+ra_master ansible_host=10.128.84.136 ansible_port=22
+ra_slave ansible_host=10.128.80.136 ansible_port=22
+
+ri_master ansible_host=10.80.4.135 ansible_port=22
+ri_slave ansible_host=10.80.0.135 ansible_port=22
