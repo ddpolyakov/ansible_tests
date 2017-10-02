@@ -2,12 +2,10 @@
 
 - name: create OS services
   environment:
-   OS_TOKEN: "{{global_admin_token}}"
    OS_URL: "http://controller:35357/v3"
-   OS_AUTH_URL: "http://controller:35357/v3"
+   OS_TOKEN: "{{global_admin_token}}"
    OS_IDENTITY_API_VERSION: 3
-   OS_AUTH_TYPE: admin_token
-  command:  "openstack service create --name {{item.name}} --description {{item.descr}} {{item.service}}"
+  command:  "openstack service create --name {{item.name}} --description \"{{item.descr}}\" {{item.service}}"
    #command:  "env"
   with_items:
    - "{{global_os_services}}"
@@ -16,36 +14,29 @@
 - name: create OS public enpoint
   environment:
    OS_TOKEN: "{{global_admin_token}}"
-   OS_AUTH_URL: http://controller:35357/v3
+   OS_URL: http://controller:35357/v3
    OS_IDENTITY_API_VERSION: 3
-   OS_AUTH_TYPE: admin_token
-  command: "openstack endpoint create --region RegionOne {{item.service}} public http://controller:5000/v3"
+  command: "openstack endpoint create --region RegionOne {{item.service}} public http://controller:{{item.port}}{{item.suffix}}"
   with_items:
    - "{{global_os_services}}"
   tags: services, endpoints
 
-- name: create OS internal enpoint
+- name: create OS internal endpoint
   environment:
    OS_TOKEN: "{{global_admin_token}}"
-   OS_AUTH_URL: http://controller:35357/v3
+   OS_URL: http://controller:35357/v3
    OS_IDENTITY_API_VERSION: 3
-   OS_AUTH_TYPE: admin_token
-  command: "openstack endpoint create --region RegionOne {{item.service}} internal http://controller:5000/v3"
+  command: "openstack endpoint create --region RegionOne {{item.service}} internal http://controller:{{item.port}}{{item.suffix}}"
   with_items:
    - "{{global_os_services}}"
   tags: services, endpoints
 
-- name: create OS admin ednpoint
+- name: create OS admin endpoint
   environment:
    OS_TOKEN: "{{global_admin_token}}"
-   OS_AUTH_URL: http://controller:35357/v3
+   OS_URL: http://controller:35357/v3
    OS_IDENTITY_API_VERSION: 3
-   OS_AUTH_TYPE: admin_token
-  command: "openstack endpoint create --region RegionOne {{item.service}} admin http://controller:35357/v3"
+  command: "openstack endpoint create --region RegionOne {{item.service}} admin http://controller:{{item.adminport}}{{item.suffix}}"
   with_items:
    - "{{global_os_services}}"
   tags: services, endpoints
-
-
-
-

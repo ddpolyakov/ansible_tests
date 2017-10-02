@@ -1,6 +1,8 @@
 ---
 global_admin_token: a5b1b86c07f32ed6da4a
+
 global_os_password: openstack
+
 global_os_auth:
  auth_url: http://cotroller:35357/v3
  username: admin
@@ -8,8 +10,30 @@ global_os_auth:
  user_domain_name: default
  project_name: admin
  project_domain_name: default
+
 global_os_services:
-   - {name: 'keystone', service: 'identity', descr: 'OS Identity' }
-   - {name: 'glance', service: 'image', descr: 'OS Image' }
-   - {name: 'neutron', service: 'network', descr: 'OS Nova' }
-   - {name: 'nova', service: 'compute', descr: 'OS Nova' }
+   - {name: 'keystone', service: 'identity', descr: 'OS Identity', adminport: '35357', port: '5000', suffix: '/v3' }
+   - {name: 'glance', service: 'image', descr: 'OS Image', adminport: '9292', port: '9292', suffix: '' }
+   - {name: 'neutron', service: 'network', descr: 'OS Nova', adminport: '9696', suffix: '', port: '9696' }
+   - {name: 'nova', service: 'compute', descr: 'OS Nova', adminport: '8774', port: '8774', suffix: '/v2.1/%\(tenant_id\)s' }
+
+global_os_env:
+ OS_URL: http://controller:35357/v3
+ OS_TOKEN: "{{global_admin_token}}"
+ OS_IDENTITY_API_VERSION: 3
+
+global_os_service_users:
+ - nova
+ - glance
+ - neutron
+
+global_os_projects:
+ - service
+ - admin
+ - demo
+
+global_os_admin_users:
+ - admin
+
+global_os_domains:
+ - default

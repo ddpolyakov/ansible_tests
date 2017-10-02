@@ -8,6 +8,7 @@
 - include: keystone.yml
 - include: httpd.yml
 - include: os_services.yml
+- include: os_users_roles.yml
 
 - name: reboot
   shell: nohup bash -c "sleep 2s && reboot" &
